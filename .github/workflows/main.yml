@@ -1,4 +1,4 @@
-name: Development Build (Galaxy A50)
+name: Galaxy A50 Development Build
 
 on:
   push:
@@ -6,6 +6,12 @@ on:
       - 'master'
       - 'main'
       - 'wip-*'
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Name of the build'
+        required: true
+        default: 'Development Build (Galaxy A50)'
 
 jobs:
   oneui-s-e:
@@ -80,4 +86,3 @@ jobs:
       with:
         name: Release Files and Configs
         path: release_files_and_configs.zip
-
