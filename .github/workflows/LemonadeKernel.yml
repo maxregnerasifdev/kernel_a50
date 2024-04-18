@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    name: Build LemonKernel
     runs-on: ubuntu-latest
 
     steps:
@@ -24,16 +25,21 @@ jobs:
           sudo apt-get upgrade -y
           sudo apt-get install build-essential gcc-aarch64-linux-gnu -y
 
+      - name: Set up Android environment
+        uses: android-actions/setup-android@v2
+        with:
+          sdk-version: '13'
+          build-tools-version: '32.0.0'
+          target-platform: 'android-33'
+
       - name: Cloning script
         run: git clone https://github.com/GiovanYCringe/kernel-build build/
 
-      - name: Build
+      - name: Build LemonKernel
         run: ./build/build.sh
 
-      - name: Upload to Telegram
-        uses: appleboy/telegram-action@master
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          document: Lemonade-a505f-*.zip
-          message: "New Lemonade Kernel Update! Download Now!!"
+          name: LemonKernel
+          path: Lemonade-a505f-*.zip
